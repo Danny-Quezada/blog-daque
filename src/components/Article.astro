@@ -1,0 +1,50 @@
+---
+interface Props {
+  Id: string;
+  Category: string;
+  Title: string;
+  Description: string;
+  Date: Date;
+}
+const { Id, Category, Title, Description, Date } = Astro.props;
+---
+
+<div id="article">
+  <a  target="_self" href={`/Article/${Id}/`}>
+    <h3 id="category"  transition:name="Category">{Category}</h3>
+    <h2 id="title" transition:name="Title">{Title}</h2>
+    <p id="description">{Description}</p>
+    <span id="date">{Date.toDateString()}</span>
+  </a>
+</div>
+
+<style>
+  #article {
+    margin-top: 40px;
+  }
+  #article a {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+  #article #category {
+    font-size: 1em;
+    font-weight: 800;
+    color: var(--secondary-color);
+  }
+  #article #title {
+    font-weight: bold;
+  }
+  #article #description {
+    color: rgb(150, 146, 146);
+    font-weight: 500;
+  }
+  #article #date {
+    color: var(--secondary-color);
+    font-size: 0.8em;
+    font-weight: 600;
+  }
+</style>
+<script>
+ 
+</script>
