@@ -1,14 +1,16 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import ArticleRepository from "../lib/infraestructure/ArticleRepository";
+import { ArticleRepository } from "../lib/infraestructure/ArticleRepository";
 import Header from "../components/Header.astro";
 import Article from "../components/Article.astro";
 
-let article = new ArticleRepository();
 
-await article.Init();
-const Articles = await article.Read();
-console.log(Articles);
+let article = ArticleRepository.obtenerInstancia();
+if (!article.clientApp) {
+  await article.Init();
+  article.Articles = await article.Read();
+  console.log(article.Articles);
+}
 
 ---
 
@@ -17,23 +19,32 @@ console.log(Articles);
   <main>
     <section id="important">
       <h1>Articles</h1>
-      <span id="countArticles">{Articles.length} articles</span>
+      <span id="countArticles">{article.Articles.length} articles</span>
       <div id="articles">
-        {Articles.map((element) => <Article Category={element.Category} Date={element.PublishAt} Id={element.Id} Description={element.Description} Title={element.Title}/>)}
+        {
+          article.Articles.map((element) => (
+            <Article
+              Category={element.Category}
+              Date={element.PublishAt}
+              Id={element.Id}
+              Description={element.Description}
+              Title={element.Title}
+            />
+          ))
+        }
       </div>
       <button type="button" id="button" class="animatedRemove">
-        <img src="../../public/icons/arrow.svg" alt=""  />
+        <img src="../../public/icons/arrow.svg" alt="" />
       </button>
     </section>
   </main>
 </Layout>
 
-<style >
+<style>
   main {
     display: flex;
     justify-content: center;
     align-items: center;
-   
   }
   h1 {
     font-size: 2em;
@@ -54,7 +65,7 @@ console.log(Articles);
     justify-content: center;
     align-items: center;
     cursor: pointer;
-   
+
     border-radius: 50%;
     z-index: 1;
     position: fixed;
@@ -63,7 +74,6 @@ console.log(Articles);
     transform-style: preserve-3d;
     right: 25px;
     bottom: 25px;
-  
   }
 
   .animated {
@@ -76,45 +86,41 @@ console.log(Articles);
     height: 0px;
     display: none !important;
   }
-  
-@media (width<480px) {
-  main #important {
-    margin-top: 60px;
-    width: 100%;
-    padding: 7px;
+
+  @media (width<480px) {
+    main #important {
+      margin-top: 60px;
+      width: 100%;
+      padding: 7px;
+    }
+    header nav {
+      width: 100%;
+      position: fixed;
+      z-index: 2;
+    }
   }
-  header nav {
-    width: 100%;
-    position: fixed;
-    z-index: 2;
-  }
-}
 </style>
 <script>
- 
- let a = document.getElementsByTagName("a")[0];
- console.log(a);
-  a.addEventListener("click", function(e){
+  let a = document.getElementsByTagName("a")[0];
+  console.log(a);
+  a.addEventListener("click", function (e) {
     console.log(a);
     e.preventDefault();
-    history.pushState({},"",'/Article/prueba')
+    history.pushState({}, "", "/Article/prueba");
   });
-let button = document.getElementById("button")!;
-button.addEventListener("click", (e) => {
-    window.scrollTo({ behavior: "smooth", top: 0 })
-});
+  let button = document.getElementById("button")!;
+  button.addEventListener("click", (e) => {
+    window.scrollTo({ behavior: "smooth", top: 0 });
+  });
 
-window.addEventListener("scroll", (e) => {
+  window.addEventListener("scroll", (e) => {
     console.log(window.scrollY);
     if (window.scrollY >= 50) {
-
-        button.classList.add("animated");
-        button.classList.remove('animatedRemove')
+      button.classList.add("animated");
+      button.classList.remove("animatedRemove");
+    } else {
+      button.classList.remove("animated");
+      button.classList.add("animatedRemove");
     }
-    else {
-        button.classList.remove("animated");
-        button.classList.add("animatedRemove")
-    }
-});
-
+  });
 </script>

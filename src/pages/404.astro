@@ -1,1 +1,53 @@
-<h1>Prueba</h1>
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Error">
+  <div id="container">
+    <h2>404</h2>
+    <p>Article's not exist!</p>
+    <div class="circle"></div>
+  </div>
+</Layout>
+<style>
+  .circle {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    background-color: blue;
+    filter: blur(23px);
+    animation-name: animationCircle;
+    animation-duration: 7s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+  }
+  @keyframes animationCircle {
+    from {
+      top: 0;
+      left: 0;
+    }
+    to {
+      top: calc(100vh - 100px);
+      left: calc(100vw - 100px);
+    }
+  }
+  #container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-top: 45px;
+    align-items: center;
+  }
+  #container h2 {
+    font-size: 6em;
+  }
+  #container p {
+    color: grey;
+  }
+</style>

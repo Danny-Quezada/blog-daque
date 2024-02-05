@@ -8,10 +8,16 @@ import {
   getDocs,
   getFirestore,
 } from "firebase/firestore";
+ class ArticleRepository implements IArticle {
 
-export default class ArticleRepository implements IArticle {
+  private static instance:ArticleRepository;
+  public static obtenerInstancia():ArticleRepository{
+    if(!ArticleRepository.instance){
+      ArticleRepository.instance=new ArticleRepository;
 
-
+    }
+    return ArticleRepository.instance;
+  }
 
 
   async GetById(Id: string): Promise<Article | null> {
@@ -48,7 +54,7 @@ export default class ArticleRepository implements IArticle {
 
   firestore: any;
   clientApp: any;
-
+  Articles: Article[]=[];
   async Init(): Promise<void> {
     this.clientApp = initializeApp(this.firebaseConfig);
     this.firestore = await getFirestore();
@@ -73,6 +79,7 @@ export default class ArticleRepository implements IArticle {
       Articles.push(article);
     });
     return Articles;
+    
   }
   Create(arg: Article): Promise<boolean> {
     throw new Error("Method not implemented.");
@@ -94,3 +101,4 @@ export default class ArticleRepository implements IArticle {
     return Articles;
   }
 }
+export {ArticleRepository}

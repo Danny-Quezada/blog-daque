@@ -1,17 +1,17 @@
 ---
 import Header from "../../components/Header.astro";
 import Layout from "../../layouts/Layout.astro";
-import ArticleRepository from "../../lib/infraestructure/ArticleRepository";
+import {ArticleRepository} from "../../lib/infraestructure/ArticleRepository";
 import { Markdown } from "@astropub/md";
 
 const { id } = Astro.params;
-const repository = new ArticleRepository();
+const repository = ArticleRepository.obtenerInstancia();
 const article = await repository.GetById(id!);
 console.log(article);
 if (article == null) {
   return Astro.redirect("/404");
 }
-const value = article.Value.replaceAll("\\n", "\n");
+const value = article.Value.replaceAll("\\n", '\n');
 ---
 
 <Layout title={article.Title}>
