@@ -1,7 +1,8 @@
 ---
 import Markdown from "@astropub/md/Markdown";
+import {EditorPage} from "../components/react/EditorPage";
 import Layout from "../layouts/Layout.astro";
-import { EditorReact } from "../components/EditorReact";
+
 const uid = Astro.cookies.get("uid");
 if (!uid) {
   return Astro.redirect("/");
@@ -10,10 +11,7 @@ if (!uid) {
 
 <Layout title="Create">
   <main>
-  
-      <EditorReact client:only/>
-
-    
+   <EditorPage client:only/>
   </main>
 </Layout>
 <style>
@@ -23,7 +21,7 @@ if (!uid) {
     width: 100vw;
     height: 100vh;
   }
- 
+
   .markdown {
     overflow: hidden;
     width: 50%;
