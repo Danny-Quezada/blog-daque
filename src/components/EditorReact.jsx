@@ -14,7 +14,7 @@ export function EditorReact() {
     width: "50%",
     height: "100%",
     padding: "8px",
-    overflow: "auto"
+    overflow: "auto",
   };
   function handleEditorChange(value, event) {
     setvalue(value);
@@ -30,8 +30,8 @@ export function EditorReact() {
         onChange={handleEditorChange}
       />
       <div style={styleMarkdown}>
-        <MarkdownReact value={value}/>
-        </div>
+        <MarkdownReact  value={value} />
+      </div>
     </div>
   );
 }
