@@ -1,24 +1,44 @@
-import type { IArticle } from "../domain/interfaces/IArticle";
+import type { IArticleModel } from "../domain/interfaces/IArticleModel";
 import { Article } from "../domain/models/Article";
-import { initializeApp } from "firebase/app";
+import { initializeApp, type FirebaseApp } from "firebase/app";
+
 import {
   collection,
   doc,
   getDoc,
   getDocs,
   getFirestore,
+  addDoc,
 } from "firebase/firestore";
- class ArticleRepository implements IArticle {
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { Auth } from "firebase-admin/auth";
 
-  private static instance:ArticleRepository;
-  public static obtenerInstancia():ArticleRepository{
-    if(!ArticleRepository.instance){
-      ArticleRepository.instance=new ArticleRepository;
+class ArticleRepository implements IArticleModel {
+  async AuthUser(email: string, password: string): Promise<string> {
+    try {
+      if (!this.clientApp) {
+        await this.Init();
+      }
+      console.log(email);
 
+      const user = await signInWithEmailAndPassword(this.auth, email, password);
+      return user.user.uid;
+    } catch (e) {
+      throw new Error("Incorrect information!");
+    }
+  }
+
+  private static instance: ArticleRepository;
+  public static obtenerInstancia(): ArticleRepository {
+    if (!ArticleRepository.instance) {
+      ArticleRepository.instance = new ArticleRepository();
     }
     return ArticleRepository.instance;
   }
-
 
   async GetById(Id: string): Promise<Article | null> {
     if (!this.clientApp) {
@@ -36,7 +56,6 @@ import {
         data!["Description"],
         data!["Category"],
         data!["HexColor"],
-        
       );
       return article;
     } catch (e) {
@@ -49,15 +68,20 @@ import {
     authDomain: import.meta.env.SNOWPACK_PUBLIC_AUTH_DOMAIN,
     projectId: import.meta.env.SNOWPACK_PUBLIC_PROJECT_ID,
     storageBucket: import.meta.env.SNOWPACK_PUBLIC_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.SNOWPACK_MESSAGING_SENDER_ID,
     appId: import.meta.env.SNOWPACK_PUBLIC_APP_ID,
+    measurementId: import.meta.env.SNOWPACK_MEASUREMENT_ID,
   };
 
   firestore: any;
-  clientApp: any;
-  Articles: Article[]=[];
+  clientApp: FirebaseApp | null = null;
+  auth: Auth | any;
+  Articles: Article[] | undefined = undefined;
   async Init(): Promise<void> {
     this.clientApp = initializeApp(this.firebaseConfig);
     this.firestore = await getFirestore();
+
+    this.auth = await getAuth();
   }
   async Read(): Promise<Article[]> {
     let Articles: Article[] = [];
@@ -69,7 +93,7 @@ import {
         data["Id"],
         data["Title"],
         data["image"],
-        data["value"],
+        data["Value"],
         data["PublishAt"].toDate(),
         data["Description"],
         data["Category"],
@@ -79,10 +103,16 @@ import {
       Articles.push(article);
     });
     return Articles;
-    
   }
-  Create(arg: Article): Promise<boolean> {
-    throw new Error("Method not implemented.");
+  async Create(arg: Article,uid: string | null): Promise<boolean> {
+    const articlesCollection = collection(this.firestore, 'articles');
+
+    // Agregar artículo a la colección
+    await addDoc(articlesCollection, {
+      ...Article,
+      uid: uid, // Asegúrate de incluir el UID del usuario en el artículo si es necesario
+    });
+    return true;
   }
   async Update(arg: Article): Promise<boolean> {
     throw new Error("Method not implemented.");
@@ -90,15 +120,5 @@ import {
   Delete(arg: Article): Promise<boolean> {
     throw new Error("Method not implemented.");
   }
-
-  async test(): Promise<any> {
-    let Articles: Article[] = [];
-    let snapshots = await getDocs(collection(this.firestore, "articles"));
-    snapshots.forEach((Element) => {
-      const Article = Element.data();
-      Articles.push(Article as Article);
-    });
-    return Articles;
-  }
 }
-export {ArticleRepository}
+export { ArticleRepository };

@@ -1,34 +1,39 @@
 ---
 import Header from "../../components/Header.astro";
 import Layout from "../../layouts/Layout.astro";
-import {ArticleRepository} from "../../lib/infraestructure/ArticleRepository";
+import { ArticleRepository } from "../../lib/infraestructure/ArticleRepository";
 import { Markdown } from "@astropub/md";
 
 const { id } = Astro.params;
+
 const repository = ArticleRepository.obtenerInstancia();
 const article = await repository.GetById(id!);
-console.log(article);
 if (article == null) {
   return Astro.redirect("/404");
 }
-const value = article.Value.replaceAll("\\n", '\n');
+const value = article.Value.replaceAll("\\n", "\n");
+console.log(value);
 ---
 
 <Layout title={article.Title}>
   <Header>
-    <span id="category" transition:name="Category">{article.Category}</span>
+    <span class="category" transition:name=`Category-${id}` 
+      >{article.Category}</span
+    >
   </Header>
-  <main id="container">
-    <article id="article">
+  <main class="container">
+    <article class="article">
       <span>
-        <a href="/" id="button">
-          <img src="../../../public/icons/leftarrow.svg" alt="" />
+        <a href="javascript: history.go(-1)" id="button" data-astro-reload >
+          <img src="../../../public/icons/leftarrow.svg" alt="Left arrow" />
         </a>
-        <h1 id="title" transition:name="Title">{article.Title}</h1>
+        <h1 class="title" transition:name=`Title-${id}`>
+          {article.Title}
+        </h1>
       </span>
-      <span id="date">{article.PublishAt.toDateString()}</span>
+      <span class="date">{article.PublishAt.toDateString()}</span>
 
-      <div id="content">
+      <div class="content">
         <Markdown
           of={/*"```python \nprint(\"Hello, world!\")\nfor i in range(10):\n    print(i)\n```"*/ value}
         />
@@ -36,23 +41,27 @@ const value = article.Value.replaceAll("\\n", '\n');
     </article>
   </main>
 </Layout>
-
+<script>
+  let button=document.getElementById("button");
+  
+</script>
 <style>
-  #container {
+  .container {
     display: flex;
 
     justify-content: center;
   }
 
-  #category {
+  .category {
+   
     color: var(--secondary-color);
   }
 
-  #article {
+  .article {
     margin-top: 80px;
     width: 50%;
   }
-  #article > span {
+  .article > span {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -65,33 +74,30 @@ const value = article.Value.replaceAll("\\n", '\n');
     align-items: center;
   }
 
-  #title {
+  .title {
     font-weight: bold;
     font-size: 2em;
     display: inline;
   }
-  #date {
+  .date {
     font-weight: bold;
     margin-top: 10px;
     color: var(--secondary-color);
   }
-  #content {
+  
+  .content {
     margin-top: 20px;
     position: relative;
-  }
-
-  #content h1 {
-    font-size: 2em;
-  }
-  #content h1 {
-    border-bottom: 1px solid #b4b4b885;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
 
   @media (width<580px) {
-    #container {
+    .container {
       margin-top: 60px;
     }
-    #article {
+    .article {
       width: 100%;
       margin-top: 20px;
       padding: 7px;

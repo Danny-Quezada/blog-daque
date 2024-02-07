@@ -1,0 +1,22 @@
+---
+interface Props {
+  placeholder: string;
+  name: string;
+  password: boolean;
+}
+const { placeholder,name, password} = Astro.props;
+---
+
+<input type={password ? "password" : "text"} placeholder={placeholder} name={name},  />
+<style>
+  input {
+    border-radius: 10px;
+    border: none;
+    width: 80%;
+    height: 35px;
+    padding-left: 20px;
+
+  }
+
+  
+</style>

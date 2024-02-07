@@ -4,14 +4,12 @@ import { ArticleRepository } from "../lib/infraestructure/ArticleRepository";
 import Header from "../components/Header.astro";
 import Article from "../components/Article.astro";
 
-
 let article = ArticleRepository.obtenerInstancia();
-if (!article.clientApp) {
+if (!article.Articles) {
   await article.Init();
   article.Articles = await article.Read();
-  console.log(article.Articles);
 }
-
+console.log(article.Articles);
 ---
 
 <Layout title="Blog Danny Quezada">
@@ -23,7 +21,7 @@ if (!article.clientApp) {
       <div id="articles">
         {
           article.Articles.map((element) => (
-            <Article
+            <Article 
               Category={element.Category}
               Date={element.PublishAt}
               Id={element.Id}
@@ -32,6 +30,7 @@ if (!article.clientApp) {
             />
           ))
         }
+         
       </div>
       <button type="button" id="button" class="animatedRemove">
         <img src="../../public/icons/arrow.svg" alt="" />
@@ -101,18 +100,12 @@ if (!article.clientApp) {
   }
 </style>
 <script>
-  let a = document.getElementsByTagName("a")[0];
-  console.log(a);
-  a.addEventListener("click", function (e) {
-    console.log(a);
-    e.preventDefault();
-    history.pushState({}, "", "/Article/prueba");
-  });
   let button = document.getElementById("button")!;
-  button.addEventListener("click", (e) => {
-    window.scrollTo({ behavior: "smooth", top: 0 });
-  });
-
+  if (button) {
+    button!.addEventListener("click", (e) => {
+      window.scrollTo({ behavior: "smooth", top: 0 });
+    });
+  }
   window.addEventListener("scroll", (e) => {
     console.log(window.scrollY);
     if (window.scrollY >= 50) {

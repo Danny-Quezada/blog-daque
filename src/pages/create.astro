@@ -1,0 +1,37 @@
+---
+import Markdown from "@astropub/md/Markdown";
+import Layout from "../layouts/Layout.astro";
+import { EditorReact } from "../components/EditorReact";
+const uid = Astro.cookies.get("uid");
+if (!uid) {
+  return Astro.redirect("/");
+}
+---
+
+<Layout title="Create">
+  <main>
+  
+      <EditorReact client:only/>
+
+    
+  </main>
+</Layout>
+<style>
+  main {
+    overflow: hidden;
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+  }
+ 
+  .markdown {
+    overflow: hidden;
+    width: 50%;
+    height: 100%;
+  }
+  .markdownConvert {
+    padding: 8px;
+    width: 50%;
+    height: 100%;
+  }
+</style>

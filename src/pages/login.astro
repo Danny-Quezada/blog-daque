@@ -1,0 +1,110 @@
+---
+import Button from "../components/Button.astro";
+import InputField from "../components/InputField.astro";
+import Layout from "../layouts/Layout.astro";
+import { ArticleRepository } from "../lib/infraestructure/ArticleRepository";
+
+let article = ArticleRepository.obtenerInstancia();
+
+const errors = { email: "", password: "" };
+if (Astro.request.method === "POST") {
+  try {
+    const data = await Astro.request.formData();
+
+    console.log(data);
+    const email = data.get("Email");
+    const password = data.get("Password");
+    if (typeof email !== "string" || email.length < 1) {
+      errors.email += "Please enter a username. ";
+    }
+    if (typeof password !== "string" || password.length < 6) {
+      errors.password += "Password must be at least 6 characters. ";
+    }
+    const hasErrors = Object.values(errors).some((msg) => msg);
+    if (!hasErrors) {
+      console.log(email);
+      const uid = await article.AuthUser(email as string, password as string);
+      Astro.cookies.set("uid", uid);
+      return Astro.redirect("/create");
+    }
+    // Do something with the data
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    }
+  }
+}
+---
+
+<Layout title="Login">
+  <div class="container">
+    <div class="login">
+      <img src="../../public/image/blog.png" alt="blog's image" />
+      <form action="" method="POST">
+        {errors.email && <p>{errors.email}</p>}
+        <InputField placeholder="Email" , name="Email" , password={false} />
+        {errors.password && <p>{errors.password}</p>}
+        <InputField
+          placeholder="Password"
+          ,
+          name="Password"
+          ,
+          password={true}
+        />
+        <Button Title="Login" />
+      </form>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .login {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    height: 50%;
+  }
+  form {
+    gap: 20px;
+    width: 50%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  img {
+    border-radius: 11px;
+    width: 50%;
+    height: 100%;
+  }
+  @media (width<480px) {
+    .login {
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      flex-direction: column;
+      width: 100%;
+    }
+    form {
+      gap: 25px;
+      width: 100%;
+    }
+    img {
+      width: 80%;
+    }
+  }
+</style>
+<script>
+  window.addEventListener("submit", (e) => {
+    e.preventDefault();
+  });
+</script>

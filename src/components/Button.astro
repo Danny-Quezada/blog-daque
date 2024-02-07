@@ -1,0 +1,22 @@
+---
+interface Props {
+  Title: string;
+}
+const { Title } = Astro.props;
+---
+
+<button type="submit">{Title}</button>
+<style>
+  button {
+    cursor: pointer;
+    width: 80%;
+    height: 35px;
+    border: none;
+    border-radius: 10px;
+    background-color: rgb(21, 119, 86);
+    color: white;
+  }
+  button:hover {
+    background-color: rgba(10, 94, 66, 0.795);
+  }
+</style>
