@@ -2,8 +2,7 @@
 import Header from "../../components/Header.astro";
 import Layout from "../../layouts/Layout.astro";
 import { ArticleRepository } from "../../lib/infraestructure/ArticleRepository";
-import { Markdown } from "@astropub/md";
-
+import { MarkdownReact } from "../../components/react/MarkdownReact";
 const { id } = Astro.params;
 
 const repository = ArticleRepository.obtenerInstancia();
@@ -34,9 +33,7 @@ console.log(value);
       <span class="date">{article.PublishAt.toDateString()}</span>
 
       <div class="content">
-        <Markdown
-          of={/*"```python \nprint(\"Hello, world!\")\nfor i in range(10):\n    print(i)\n```"*/ value}
-        />
+        <MarkdownReact value={value} client:only/>
       </div>
     </article>
   </main>

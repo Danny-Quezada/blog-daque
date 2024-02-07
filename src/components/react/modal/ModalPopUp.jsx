@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useState,useContext } from "react";
 import ModalCSS from "./modal.module.css";
+import { FormContext  } from "../context/FormContext";
+
 
 export function ModalPopUp() {
+  const { article,setArticle } = useContext(FormContext);
+ 
   const toggle = () => {
     setModal(!modal);
   };

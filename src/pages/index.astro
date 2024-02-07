@@ -6,13 +6,14 @@ import Article from "../components/Article.astro";
 
 let article = ArticleRepository.obtenerInstancia();
 if (!article.Articles) {
+  console.log("prueba");
   await article.Init();
   article.Articles = await article.Read();
 }
 console.log(article.Articles);
 ---
 
-<Layout title="Blog Danny Quezada">
+<Layout title="Blog Danny Quezada" >
   <Header />
   <main>
     <section id="important">
@@ -21,7 +22,7 @@ console.log(article.Articles);
       <div id="articles">
         {
           article.Articles.map((element) => (
-            <Article 
+            <Article
               Category={element.Category}
               Date={element.PublishAt}
               Id={element.Id}
@@ -30,7 +31,6 @@ console.log(article.Articles);
             />
           ))
         }
-         
       </div>
       <button type="button" id="button" class="animatedRemove">
         <img src="../../public/icons/arrow.svg" alt="" />

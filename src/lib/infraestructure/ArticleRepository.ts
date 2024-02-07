@@ -50,7 +50,6 @@ class ArticleRepository implements IArticleModel {
       article = new Article(
         data!["Id"],
         data!["Title"],
-        data!["image"],
         data!["Value"],
         data!["PublishAt"].toDate(),
         data!["Description"],
@@ -92,7 +91,6 @@ class ArticleRepository implements IArticleModel {
       let article: Article = new Article(
         data["Id"],
         data["Title"],
-        data["image"],
         data["Value"],
         data["PublishAt"].toDate(),
         data["Description"],

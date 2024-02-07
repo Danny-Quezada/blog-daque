@@ -1,7 +1,6 @@
 export class Article {
   Id: string;
   Title: string;
-
   Value: string;
   PublishAt: Date;
   Description: string;
@@ -10,7 +9,6 @@ export class Article {
   constructor(
     Id: string,
     Title: string,
-
     Value: string,
     PublishAt: Date,
     Description: string,
@@ -19,7 +17,6 @@ export class Article {
   ) {
     this.Id = Id;
     this.Title = Title;
-
     this.Value = Value;
     this.PublishAt = PublishAt;
     this.Description = Description;
