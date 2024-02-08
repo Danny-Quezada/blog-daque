@@ -23,7 +23,7 @@ function Modal({ toggle }) {
   const { article, setArticle } = useContext(FormContext);
   const changeValue = (e) => {
     setArticle({ ...article, [e.target.name]: e.target.value });
-    console.log(article[e.target.name]);
+  
   };
   const [responseMessage, setResponseMessage] = useState("");
 

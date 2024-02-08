@@ -10,7 +10,8 @@ export function EditorReact() {
  
   
   function handleEditorChange(value, event) {
-    setArticle({...article,[value]:value});
+    console.log(value);
+    setArticle({...article,"Value":value});
   }
   return (
     <div className={EditorCss.container}>
