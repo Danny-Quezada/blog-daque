@@ -1,10 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Onest:wght@100;400;600;800;900&display=swap");
+*{
+  font-family: "Onest", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
 .button {
   cursor: pointer;
   display: block;
   bottom: 10px;
   right: 10px;
   position: absolute;
-  z-index: 2;
+  z-index: 3333;
   width: 60px;
   height: 60px;
   border-radius: 50%;
@@ -12,12 +17,93 @@
   font-size: 2em;
 }
 .modal {
+  padding-bottom: 10px;
+  padding-inline: 10px;
+  padding-top: 20px;
+  gap:25px;
+  display: flex;
+  flex-direction: column;
   width: 500px;
-  height: 500px;
-  z-index: 3;
+ 
+  border-radius: 5px;
   position: absolute;
   left: 50%;
   top: 50%;
+  z-index: 333;
   transform: translate(-50%, -50%);
-  background-color: aqua;
+  background-color: white;
+}
+.title {
+  color: black;
+  outline: none;
+  background-color: white;
+  font-size: 1.3em;
+  width: 100%;
+  height: 50px;
+  border: none;
+  border-bottom: 2px solid grey;
+}
+.title::placeholder {
+  font-size: 1.3em;
+}
+
+
+
+.inputSmall{
+  color: black;
+  outline: none;
+  background-color: white;
+  font-size: 1em;
+  width: 100%;
+  height: 50px;
+  border: none;
+  
+}
+input[type="text"]::placeholder {
+  font-size: 1em;
+}
+.textarea {
+  resize: none;
+  outline: none;
+  flex: auto;
+  color: grey;
+  font-size: 1.2em;
+  border: none;
+  padding-bottom: 5px;
+  background-color: white
+}
+.textarea::placeholder {
+  font-size: 1.3em;
+}
+.date {
+  font-size: 1.2em;
+  border: none;
+  color: gray;
+  background-color: white;
+}
+
+::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+.container {
+  color: black;
+  position: absolute;
+  z-index: 100;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(0, 0, 0, 0.5);
+}
+.submit{
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  height: 40px;
+  font-size: 1.3em;
+  font-weight: 600;
+  padding-inline: 33px;
+  background-color: rgb(12, 116, 116);
+}
+label{
+  font-weight: 500;
+  color: black;
 }

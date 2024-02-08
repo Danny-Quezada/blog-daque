@@ -4,6 +4,10 @@ import InputField from "../components/InputField.astro";
 import Layout from "../layouts/Layout.astro";
 import { ArticleRepository } from "../lib/infraestructure/ArticleRepository";
 
+if (Astro.cookies.get("uid")) {
+  return Astro.redirect("/create");
+}
+
 let article = ArticleRepository.obtenerInstancia();
 
 const errors = { email: "", password: "" };
@@ -39,7 +43,10 @@ if (Astro.request.method === "POST") {
 <Layout title="Login">
   <div class="container">
     <div class="login">
-      <img src="../../public/image/blog.png" alt="blog's image" />
+      <picture>
+        <img src="../../public/image/blog.png" alt="blog's image" />
+      </picture>
+
       <form action="" method="POST">
         {errors.email && <p>{errors.email}</p>}
         <InputField placeholder="Email" , name="Email" , password={false} />
@@ -80,13 +87,17 @@ if (Astro.request.method === "POST") {
     display: flex;
     flex-direction: column;
   }
-
-  img {
+  picture {
     border-radius: 11px;
     width: 50%;
     height: 100%;
   }
-  @media (width<480px) {
+  img {
+    border-radius: 11px;
+    width: 100%;
+    height: 100%;
+  }
+  @media (width<600px) {
     .login {
       justify-content: center;
       align-items: center;
@@ -98,7 +109,7 @@ if (Astro.request.method === "POST") {
       gap: 25px;
       width: 100%;
     }
-    img {
+    picture {
       width: 80%;
     }
   }

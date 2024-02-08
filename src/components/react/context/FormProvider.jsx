@@ -6,7 +6,7 @@ export const FormProvider = ({ children }) => {
   const [article, setArticle] = useState({
     Value: "# Write down!",
     Title: "",
-    PublishAt: new Date().getDate(),
+    PublishAt: new Date(),
     Description: "",
     Category: "",
     HexColor: "",

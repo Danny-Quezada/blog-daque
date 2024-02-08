@@ -5,7 +5,7 @@ import Layout from "../layouts/Layout.astro";
 
 const uid = Astro.cookies.get("uid");
 if (!uid) {
-  return Astro.redirect("/");
+  return Astro.redirect("/login");
 }
 ---
 

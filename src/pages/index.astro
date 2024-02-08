@@ -5,7 +5,7 @@ import Header from "../components/Header.astro";
 import Article from "../components/Article.astro";
 
 let article = ArticleRepository.obtenerInstancia();
-if (!article.Articles) {
+if (article.Articles?.length==0) {
   console.log("prueba");
   await article.Init();
   article.Articles = await article.Read();
@@ -13,15 +13,15 @@ if (!article.Articles) {
 console.log(article.Articles);
 ---
 
-<Layout title="Blog Danny Quezada" >
+<Layout title="Blog Danny Quezada" transition:animate="none" data-astro-reload>
   <Header />
   <main>
     <section id="important">
       <h1>Articles</h1>
-      <span id="countArticles">{article.Articles.length} articles</span>
+      <span id="countArticles">{article.Articles!.length} articles</span>
       <div id="articles">
         {
-          article.Articles.map((element) => (
+          article.Articles!.map((element) => (
             <Article
               Category={element.Category}
               Date={element.PublishAt}
