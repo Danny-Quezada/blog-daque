@@ -85,6 +85,11 @@ input[type="text"]::placeholder {
 ::-webkit-calendar-picker-indicator {
   filter: invert(1);
 }
+.background{
+  width: 100%;
+  height: 100%;
+  
+}
 .container {
   color: black;
   position: absolute;

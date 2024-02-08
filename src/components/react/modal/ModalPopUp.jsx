@@ -38,8 +38,18 @@ function Modal({ toggle }) {
       body: formData,
     });
     const data = await response.json();
-    console.log(data);
+   
     if (data.message) {
+      if(data.message=="true"){
+        setArticle({
+          Value: "# Write down!",
+          Title: "",
+          PublishAt: new Date(),
+          Description: "",
+          Category: "",
+          HexColor: "",
+        })
+      }
       setResponseMessage(data.message);
       console.log(data.message);
     }
@@ -61,7 +71,7 @@ function Modal({ toggle }) {
           value={article.Title}
           onChange={changeValue}
           className={ModalCSS.title}
-        />
+        required/>
         <textarea
           name="Description"
           id="Description"
@@ -71,6 +81,7 @@ function Modal({ toggle }) {
           placeholder="Description"
           value={article.Description}
           onChange={changeValue}
+          required
         ></textarea>
         <input
           type="text"
@@ -80,6 +91,7 @@ function Modal({ toggle }) {
           className={ModalCSS.inputSmall}
           onChange={changeValue}
           value={article.Category}
+          required
         />
         <label>Date:</label>
         <input
@@ -89,6 +101,7 @@ function Modal({ toggle }) {
           className={ModalCSS.date}
           defaultValue={new Date(article.PublishAt).toLocaleDateString("en-CA")}
           onChange={changeValue}
+          
         />
         <input
           type="text"
@@ -98,6 +111,7 @@ function Modal({ toggle }) {
           className={ModalCSS.inputSmall}
           onChange={changeValue}
           value={article.HexColor}
+          required
         />
         <button type="submit" id="button" className={ModalCSS.submit}>
           CREATE
