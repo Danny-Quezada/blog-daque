@@ -25,7 +25,7 @@ const { title } = Astro.props;
     />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
-    <ViewTransitions fallback='none'  />
+   
   </head>
   <body>
     <slot />
@@ -72,6 +72,9 @@ const { title } = Astro.props;
       Courier New,
       monospace;
   }
+  .katex-html{
+  display: none;
+}
   @media (prefers-color-scheme: dark) {
     body {
       background-color: black;

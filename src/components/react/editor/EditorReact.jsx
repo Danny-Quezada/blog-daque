@@ -1,17 +1,16 @@
 import Editor from "@monaco-editor/react";
-import React, { useState,useContext } from "react";
+import React, { useState, useContext } from "react";
 import ReactDOM from "react-dom";
 import { MarkdownReact } from "../MarkdownReact";
 import EditorCss from "./editor.module.css";
-import { FormContext  } from "../context/FormContext";
+import { FormContext } from "../context/FormContext";
 
 export function EditorReact() {
-  const { article,setArticle } = useContext(FormContext);
- 
-  
-  function handleEditorChange(value, event) {
+  const { article, setArticle } = useContext(FormContext);
+
+  function handleEditorChange(value) {
     console.log(value);
-    setArticle({...article,"Value":value});
+    setArticle({ ...article, Value: value });
   }
   return (
     <div className={EditorCss.container}>

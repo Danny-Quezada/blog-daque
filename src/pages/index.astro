@@ -3,9 +3,11 @@ import Layout from "../layouts/Layout.astro";
 import { ArticleRepository } from "../lib/infraestructure/ArticleRepository";
 import Header from "../components/Header.astro";
 import Article from "../components/Article.astro";
+import arrow from "../../public/icons/arrow.svg";
+import { Image } from "astro:assets";
 
 let article = ArticleRepository.obtenerInstancia();
-if (article.Articles?.length==0) {
+if (article.Articles?.length == 0) {
   console.log("prueba");
   await article.Init();
   article.Articles = await article.Read();
@@ -13,7 +15,7 @@ if (article.Articles?.length==0) {
 console.log(article.Articles);
 ---
 
-<Layout title="Blog Danny Quezada" transition:animate="none" data-astro-reload>
+<Layout title="Blog Danny Quezada" transition:animate="none" page-load>
   <Header />
   <main>
     <section id="important">
@@ -33,13 +35,17 @@ console.log(article.Articles);
         }
       </div>
       <button type="button" id="button" class="animatedRemove">
-        <img src="../../public/icons/arrow.svg" alt="" />
+        <Image src={arrow} alt="Arrow" />
       </button>
     </section>
   </main>
 </Layout>
 
 <style>
+
+  #articles{
+    margin-top: 30px;
+  }
   main {
     display: flex;
     justify-content: center;
@@ -64,7 +70,6 @@ console.log(article.Articles);
     justify-content: center;
     align-items: center;
     cursor: pointer;
-
     border-radius: 50%;
     z-index: 1;
     position: fixed;
@@ -88,7 +93,7 @@ console.log(article.Articles);
 
   @media (width<480px) {
     main #important {
-      margin-top: 60px;
+      margin-top: 20px;
       width: 100%;
       padding: 7px;
     }

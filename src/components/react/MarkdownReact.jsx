@@ -27,8 +27,9 @@ export function MarkdownReact({ value }) {
             </code>
           );
         },
+
       }}
-      remarkPlugins={[remarkGfm, remarkMath]}
+      remarkPlugins={[remarkGfm, remarkMath,]}
       rehypePlugins={[rehypeKatex]}
     >
       {value}
